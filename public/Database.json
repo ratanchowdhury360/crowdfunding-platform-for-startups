@@ -1,0 +1,73 @@
+[
+    {
+      "id": "101",
+      "title": "Clean Water for Rural Villages",
+      "description": "Help build wells and provide clean drinking water in underserved rural communities.",
+      "funding_goal": 5000,
+      "verified": true
+    },
+    {
+      "id": "102",
+      "title": "Education for Every Child",
+      "description": "Support underprivileged children with school supplies and tuition assistance.",
+      "funding_goal": 8000,
+      "verified": true
+    },
+    {
+      "id": "103",
+      "title": "Medical Aid for Cancer Patients",
+      "description": "Provide medication and treatment support for low-income cancer patients.",
+      "funding_goal": 10000,
+      "verified": false
+    },
+    {
+      "id": "104",
+      "title": "Food Drive for the Homeless",
+      "description": "Raise funds to distribute daily meals to the homeless in urban areas.",
+      "funding_goal": 3000,
+      "verified": true
+    },
+    {
+      "id": "105",
+      "title": "Green School Project",
+      "description": "Support an eco-friendly school model with solar power and organic gardens.",
+      "funding_goal": 12000,
+      "verified": false
+    },
+    {
+      "id": "106",
+      "title": "Emergency Relief for Flood Victims",
+      "description": "Provide shelter, clothes, and food supplies to families affected by recent floods.",
+      "funding_goal": 15000,
+      "verified": true
+    },
+    {
+      "id": "107",
+      "title": "Free Coding Bootcamps",
+      "description": "Help students from disadvantaged backgrounds gain digital skills for better careers.",
+      "funding_goal": 7000,
+      "verified": true
+    },
+    {
+      "id": "108",
+      "title": "Animal Shelter Renovation",
+      "description": "Renovate an old shelter and improve the living conditions for rescued animals.",
+      "funding_goal": 6000,
+      "verified": false
+    },
+    {
+      "id": "109",
+      "title": "Mental Health Awareness Campaign",
+      "description": "Promote mental health education and provide free therapy sessions in colleges.",
+      "funding_goal": 9000,
+      "verified": true
+    },
+    {
+      "id": "110",
+      "title": "Community Library Setup",
+      "description": "Build a community library in a remote area to encourage reading and literacy.",
+      "funding_goal": 4000,
+      "verified": true
+    }
+  ]
+  
