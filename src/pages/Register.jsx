@@ -11,7 +11,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "investor", // Default role
+    role: "", // Changed default role to empty string
     fullName: "",
     phoneNumber: "",
   });
@@ -234,9 +234,13 @@ const Register = () => {
               className="w-full px-4 py-2 rounded bg-white/5 border border-accent/20 focus:outline-none focus:border-accent"
               required
             >
-              <option className="bg-sky-500" value="investor">Invest in Projects</option>
-              <option className="bg-sky-500" value="entrepreneur">Create Projects</option>
+              <option value="" disabled>Choose your role</option>
+              <option value="investor">Invest in Projects</option>
+              <option value="entrepreneur">Create Projects</option>
             </select>
+            <p className="text-sm text-gray-400 mt-1">
+              Select whether you want to invest in projects or create your own project
+            </p>
           </div>
 
           <button

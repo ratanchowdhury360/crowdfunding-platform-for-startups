@@ -3,10 +3,12 @@ import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { currentUser, userRole } = useAuth();
   const [project, setProject] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -106,7 +108,20 @@ const ProjectDetail = () => {
     <div className="min-h-screen bg-background text-white p-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <Link to={auth.currentUser?.email === "admin@startfund.com" ? "/admin/dashboard" : "/"} className="text-accent hover:underline">
+          <Link 
+            to={
+              currentUser
+                ? userRole === "admin"
+                  ? "/admin/dashboard"
+                  : userRole === "entrepreneur"
+                  ? "/entrepreneur/dashboard"
+                  : userRole === "investor"
+                  ? "/investor/dashboard"
+                  : "/"
+                : "/"
+            } 
+            className="text-accent hover:underline"
+          >
             ← Back to Dashboard
           </Link>
         </div>

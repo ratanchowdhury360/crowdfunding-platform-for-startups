@@ -22,7 +22,20 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-accent  font-bold text-4xl">
+            <Link 
+              to={
+                isAuthenticated
+                  ? userRole === "admin"
+                    ? "/admin/dashboard"
+                    : userRole === "entrepreneur"
+                    ? "/entrepreneur/dashboard"
+                    : userRole === "investor"
+                    ? "/investor/dashboard"
+                    : "/"
+                  : "/"
+              } 
+              className="text-accent font-bold text-4xl"
+            >
               StartFund
             </Link>
           </div>

@@ -70,12 +70,12 @@ const InvestorDashboard = () => {
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
-              <option value="all">All Categories</option>
-              <option value="technology">Technology</option>
-              <option value="healthcare">Healthcare</option>
-              <option value="education">Education</option>
-              <option value="sustainability">Sustainability</option>
-              <option value="finance">Finance</option>
+              <option className="bg-slate-500" value="all">All Categories</option>
+              <option className="bg-slate-500" value="technology">Technology</option>
+              <option className="bg-slate-500"value="healthcare">Healthcare</option>
+              <option className="bg-slate-500"value="education">Education</option>
+              <option className="bg-slate-500"value="sustainability">Sustainability</option>
+              <option className="bg-slate-500"value="finance">Finance</option>
             </select>
           </div>
         </div>

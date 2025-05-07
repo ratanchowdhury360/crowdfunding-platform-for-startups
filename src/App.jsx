@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import Navbar from "./components/Navbar.jsx";
 import DashboardRouter from "./components/DashboardRouter";
 
@@ -27,9 +28,30 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/guest" element={<GuestView />} />
+          <Route 
+            path="/login" 
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            } 
+          />
+          <Route 
+            path="/register" 
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            } 
+          />
+          <Route 
+            path="/guest" 
+            element={
+              <PublicRoute>
+                <GuestView />
+              </PublicRoute>
+            } 
+          />
 
           {/* Protected Routes */}
           <Route
@@ -73,6 +95,14 @@ function App() {
             }
           />
           <Route
+            path="/post-update/:projectId"
+            element={
+              <ProtectedRoute requiredRole="entrepreneur">
+                <PostUpdate />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/payment/:projectId"
             element={
               <ProtectedRoute requiredRole="investor">
@@ -85,14 +115,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProjectList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/project/:id/update"
-            element={
-              <ProtectedRoute requiredRole="entrepreneur">
-                <PostUpdate />
               </ProtectedRoute>
             }
           />

@@ -105,11 +105,11 @@ const CreateCampaign = () => {
               className="w-full px-4 py-2 rounded bg-white/5 border border-accent/20 focus:outline-none focus:border-accent"
               required
             >
-              <option value="technology">Technology</option>
-              <option value="healthcare">Healthcare</option>
-              <option value="education">Education</option>
-              <option value="sustainability">Sustainability</option>
-              <option value="finance">Finance</option>
+              <option className="bg-slate-500" value="technology">Technology</option>
+              <option className="bg-slate-500" value="healthcare">Healthcare</option>
+              <option className="bg-slate-500" value="education">Education</option>
+              <option className="bg-slate-500" value="sustainability">Sustainability</option>
+              <option className="bg-slate-500" value="finance">Finance</option>
             </select>
           </div>
 

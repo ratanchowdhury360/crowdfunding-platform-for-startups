@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, updateDoc, deleteDoc, doc, query, where } from "firebase/firestore";
 import { db, auth } from "../firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [approvedProjects, setApprovedProjects] = useState([]);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("pending"); // "pending" or "approved"
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [showBookmarked, setShowBookmarked] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -40,6 +44,19 @@ const AdminDashboard = () => {
     fetchProjects();
   }, []);
 
+  // Filter projects based on search term, category, and bookmarked status
+  const filteredProjects = approvedProjects.filter(project => {
+    const matchesSearch = 
+      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.createdBy.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCategory = selectedCategory === "all" || project.category === selectedCategory;
+    const matchesBookmarked = !showBookmarked || project.bookmarked;
+    
+    return matchesSearch && matchesCategory && matchesBookmarked;
+  });
+
   const handleApprove = async (id) => {
     try {
       if (!auth.currentUser || auth.currentUser.email !== "admin@startfund.com") {
@@ -70,12 +87,15 @@ const AdminDashboard = () => {
 
   const handleBookmark = async (id) => {
     try {
-      await updateDoc(doc(db, "projects", id), { bookmarked: true });
+      const project = approvedProjects.find(p => p.id === id);
+      const newBookmarkedState = !project.bookmarked;
+      
+      await updateDoc(doc(db, "projects", id), { bookmarked: newBookmarkedState });
       setApprovedProjects(approvedProjects.map(p => 
-        p.id === id ? { ...p, bookmarked: true } : p
+        p.id === id ? { ...p, bookmarked: newBookmarkedState } : p
       ));
     } catch (err) {
-      setError("Error bookmarking project: " + err.message);
+      setError("Error updating bookmark: " + err.message);
     }
   };
 
@@ -85,6 +105,7 @@ const AdminDashboard = () => {
       <p className="text-gray-300">{project.description}</p>
       <p><strong>Created by:</strong> {project.createdBy}</p>
       <p><strong>Goal:</strong> ${project.goal}</p>
+      <p><strong>Category:</strong> {project.category}</p>
       <p><strong>Status:</strong> {project.status}</p>
       <div className="flex gap-2 mt-2">
         {isPending ? (
@@ -94,10 +115,28 @@ const AdminDashboard = () => {
           </>
         ) : (
           <>
-            <button onClick={() => handleBookmark(project.id)} className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">
+            <button 
+              onClick={() => handleBookmark(project.id)} 
+              className={`px-4 py-1 rounded ${
+                project.bookmarked 
+                  ? "bg-yellow-500 hover:bg-yellow-600" 
+                  : "bg-blue-500 hover:bg-blue-600"
+              } text-white`}
+            >
               {project.bookmarked ? "Bookmarked" : "Bookmark"}
             </button>
-            <button onClick={() => handleReject(project.id)} className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">Delete</button>
+            <button 
+              onClick={() => navigate(`/project/${project.id}`)}
+              className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600"
+            >
+              View Details
+            </button>
+            <button 
+              onClick={() => handleReject(project.id)} 
+              className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600"
+            >
+              Delete
+            </button>
           </>
         )}
       </div>
@@ -141,10 +180,51 @@ const AdminDashboard = () => {
       ) : (
         <>
           <h3 className="text-xl font-semibold mb-4">Approved Projects</h3>
-          {approvedProjects.length === 0 ? (
-            <p className="text-gray-400">No approved projects found.</p>
+          
+          {/* Search and Filter Section */}
+          <div className="mb-6 space-y-4">
+            <div className="flex gap-4">
+              <input
+                type="text"
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="flex-1 px-4 py-2 rounded bg-white/5 border border-accent/20 focus:outline-none focus:border-accent"
+              />
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="px-4 py-2 rounded bg-white/5 border border-accent/20 focus:outline-none focus:border-accent"
+              >
+                <option value="all">All Categories</option>
+                <option value="technology">Technology</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="education">Education</option>
+                <option value="sustainability">Sustainability</option>
+                <option value="finance">Finance</option>
+              </select>
+              <button
+                onClick={() => setShowBookmarked(!showBookmarked)}
+                className={`px-4 py-2 rounded ${
+                  showBookmarked ? "bg-yellow-500" : "bg-gray-700"
+                } text-white hover:opacity-90`}
+              >
+                {showBookmarked ? "Show All" : "Show Bookmarked"}
+              </button>
+            </div>
+            <p className="text-sm text-gray-400">
+              Search by project title, description, or creator
+            </p>
+          </div>
+
+          {filteredProjects.length === 0 ? (
+            <p className="text-gray-400">
+              {searchTerm || selectedCategory !== "all" || showBookmarked
+                ? "No projects match your search criteria."
+                : "No approved projects found."}
+            </p>
           ) : (
-            approvedProjects.map(project => renderProjectCard(project))
+            filteredProjects.map(project => renderProjectCard(project))
           )}
         </>
       )}
