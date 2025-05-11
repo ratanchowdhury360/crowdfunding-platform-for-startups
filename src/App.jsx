@@ -25,9 +25,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen bg-background">
           <Navbar />
-          <main className="flex-grow">
+          <div className="flex-grow flex flex-col">
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
@@ -125,7 +125,7 @@ function App() {
               {/* Fallback Route */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </main>
+          </div>
           <Footer />
         </div>
       </Router>
