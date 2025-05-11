@@ -4,6 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 import DashboardRouter from "./components/DashboardRouter";
 
 // Pages
@@ -24,104 +25,109 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route 
-            path="/login" 
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            } 
-          />
-          <Route 
-            path="/register" 
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            } 
-          />
-          <Route 
-            path="/guest" 
-            element={
-              <PublicRoute>
-                <GuestView />
-              </PublicRoute>
-            } 
-          />
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route 
+                path="/login" 
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                } 
+              />
+              <Route 
+                path="/register" 
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                } 
+              />
+              <Route 
+                path="/guest" 
+                element={
+                  <PublicRoute>
+                    <GuestView />
+                  </PublicRoute>
+                } 
+              />
 
-          {/* Protected Routes */}
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute requiredRole="admin">
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/entrepreneur/dashboard"
-            element={
-              <ProtectedRoute requiredRole="entrepreneur">
-                <EntrepreneurDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/investor/dashboard"
-            element={
-              <ProtectedRoute requiredRole="investor">
-                <InvestorDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create-campaign"
-            element={
-              <ProtectedRoute requiredRole="entrepreneur">
-                <CreateCampaign />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/project/:id"
-            element={
-              <ProtectedRoute>
-                <ProjectDetail />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/post-update/:projectId"
-            element={
-              <ProtectedRoute requiredRole="entrepreneur">
-                <PostUpdate />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/payment/:projectId"
-            element={
-              <ProtectedRoute requiredRole="investor">
-                <Payment />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/projects"
-            element={
-              <ProtectedRoute>
-                <ProjectList />
-              </ProtectedRoute>
-            }
-          />
+              {/* Protected Routes */}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute requiredRole="admin">
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/entrepreneur/dashboard"
+                element={
+                  <ProtectedRoute requiredRole="entrepreneur">
+                    <EntrepreneurDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/investor/dashboard"
+                element={
+                  <ProtectedRoute requiredRole="investor">
+                    <InvestorDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/create-campaign"
+                element={
+                  <ProtectedRoute requiredRole="entrepreneur">
+                    <CreateCampaign />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/project/:id"
+                element={
+                  <ProtectedRoute>
+                    <ProjectDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/post-update/:projectId"
+                element={
+                  <ProtectedRoute requiredRole="entrepreneur">
+                    <PostUpdate />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/payment/:projectId"
+                element={
+                  <ProtectedRoute requiredRole="investor">
+                    <Payment />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projects"
+                element={
+                  <ProtectedRoute>
+                    <ProjectList />
+                  </ProtectedRoute>
+                }
+              />
 
-          {/* Fallback Route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+              {/* Fallback Route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
       </Router>
     </AuthProvider>
   );
